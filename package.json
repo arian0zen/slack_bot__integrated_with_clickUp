@@ -1,0 +1,16 @@
+{
+  "name": "slack-bot",
+  "version": "1.0.0",
+  "description": "a slack bot to authorize with clickUp",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arian",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/bolt": "^3.12.1",
+    "dotenv": "^16.0.2",
+    "mongoose": "^6.6.1"
+  }
+}
