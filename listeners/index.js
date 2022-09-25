@@ -4,8 +4,9 @@ const messages = require('./messages');
 
 module.exports.registerListeners = (app) => {
   commands.register(app);
-  messages.register(app);
-  messages.register2(app);
+  messages.replytohey(app);
+  messages.requesttologin(app);
+  messages.replyshow(app);
   // messages.register3(app);
   // messages.register4(app);
 };
