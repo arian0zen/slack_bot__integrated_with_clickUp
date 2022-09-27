@@ -7,7 +7,6 @@ const workspaceAuth = require("./database/auth/store_user_workspace_install");
 const db = require("./database/db");
 const dbQuery = require('./database/find_user');
 
-const receiver = new ExpressReceiver({ signingSecret: configuration.slackSigningSecret });
 
 
 const app = new App({
