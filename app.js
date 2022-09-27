@@ -7,7 +7,8 @@ const workspaceAuth = require("./database/auth/store_user_workspace_install");
 const db = require("./database/db");
 const dbQuery = require('./database/find_user');
 
-const receiver = new ExpressReceiver({ signingSecret: process.env.SLACK_SIGNING_SECRET });
+const receiver = new ExpressReceiver({ signingSecret: configuration.slackSigningSecret });
+
 
 const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -45,9 +46,7 @@ const app = new App({
   port: process.env.PORT || 80
 });
 
-// app.message("hey", async ({ message, say }) => {
-//   await say(`Heyya <@${message.user}>!`);
-// });
+
 registerListeners(app);
 
 

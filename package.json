@@ -4,10 +4,14 @@
   "description": "a slack bot to authorize with clickUp",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "Arian",
   "license": "ISC",
+  "engines":{
+    "node": "16.15.0"
+  },
   "dependencies": {
     "@slack/bolt": "^3.12.1",
     "axios": "^0.27.2",
