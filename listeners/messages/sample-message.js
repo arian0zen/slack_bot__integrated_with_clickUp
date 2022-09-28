@@ -69,7 +69,8 @@ const clickuplogin = async ({ message, say }) => {
   }
 };
 
-const showtasks = async ({ message, say }) => {
+const showtasks = async ({ message, ack, say }) => {
+  await ack();
   try {
     if (message.text === "hey slackup show tasks") {
       const collection = connection.db.collection("users");
