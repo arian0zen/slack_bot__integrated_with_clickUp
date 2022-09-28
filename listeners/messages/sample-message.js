@@ -10,7 +10,7 @@ const connection = mongoose.createConnection(
     process.env.DB_NAME_CU
 );
 
-const replyhey = async ({ message, ack, say }) => {
+const replyhey = async ({ message, ack, say, logger }) => {
   await ack();
   try {
     if (message.text === "hey slackup") {
@@ -44,11 +44,13 @@ const replyhey = async ({ message, ack, say }) => {
     }
   } catch (error) {
     console.error(error);
+    logger.error(error);
   }
 };
 
-const clickuplogin = async ({ message, say }) => {
+const clickuplogin = async ({ message, ack, say }) => {
   try {
+    await ack()
     const collection = connection.db.collection("users");
     collection
       .find({ name: message.user }, { $exists: true })
