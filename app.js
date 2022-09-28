@@ -46,7 +46,12 @@ const app = new App({
 });
 
 
-console.log('Starting installationStore with  port ' + process.env.PORT);
+app.message('wait', async ({ message, say }) => {
+  await say(`Hello, <@${message.user}>`);
+});
+
+
+
 registerListeners(app);
 
 
