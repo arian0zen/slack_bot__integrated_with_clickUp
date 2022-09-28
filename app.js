@@ -46,6 +46,7 @@ const app = new App({
 });
 
 
+console.log('Starting installationStore with  port ' + process.env.PORT);
 registerListeners(app);
 
 
