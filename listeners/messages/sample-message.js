@@ -10,7 +10,8 @@ const connection = mongoose.createConnection(
     process.env.DB_NAME_CU
 );
 
-const replyhey = async ({ message, say }) => {
+const replyhey = async ({ message, ack, say }) => {
+  await ack();
   try {
     if (message.text === "hey slackup") {
       await say(`hey <@${message.user}>!!! I hope you are doing well..`);
