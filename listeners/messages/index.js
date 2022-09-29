@@ -1,11 +1,11 @@
 const { replyhey, clickuplogin, showtasks } = require('./sample-message');
 
 module.exports.replytohey = (app) => {
-  app.message('hey slackup', replyhey);
+  app.message('-slackup', replyhey);
 };
 module.exports.requesttologin = (app) => {
-  app.message("hey slackup login", clickuplogin);
+  app.message("-slackup login", clickuplogin);
 };
 module.exports.replyshow = (app) => {
-  app.message("hey slackup show tasks", showtasks);
+  app.message("-slackup show", showtasks);
 };
