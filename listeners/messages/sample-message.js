@@ -216,6 +216,5 @@ var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
     )
     .catch(Error);
   allTasks = getTask.data.tasks;
-  console.log(allTasks);
   return allTasks;
 };
