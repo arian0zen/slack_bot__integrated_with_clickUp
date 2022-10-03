@@ -195,7 +195,7 @@ const showtasks = async ({ message, say }) => {
           }
         });
     } else if (message.text === '-slackup show last week'){
-      
+      put the last week code here
     }
   } catch (error) {
     console.error(error);
