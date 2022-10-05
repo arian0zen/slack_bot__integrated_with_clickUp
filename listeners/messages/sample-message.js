@@ -216,7 +216,7 @@ var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
       `https://api.clickup.com/api/v2/team/${oneTeam.id}/task?date_created_gt=${dateCreated}`,
       header_config
     )
-    .catch(Error)
+    .catch(Error);
   allTasks = getTask.data.tasks;
   return allTasks;
 };
