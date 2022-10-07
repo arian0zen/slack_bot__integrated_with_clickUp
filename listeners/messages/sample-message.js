@@ -129,6 +129,7 @@ const showtasks = async ({ message, say }) => {
           }
         });
     } else if (message.text === "-slackup show latest") {
+      await say ("what you mean")
       const now = Date.now();
 
       var threedays = 259200000;
