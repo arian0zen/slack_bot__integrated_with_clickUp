@@ -131,8 +131,8 @@ const showtasks = async ({ message, say }) => {
     } else if (message.text === "-slackup show latest") {
       const now = Date.now();
 
-      var tendays = 864000000;
-      var latest = now - tendays;
+      var threedays = 259200000;
+      var latest = now - threedays;
 
       collection
         .find({ name: message.user }, { $exists: true })
