@@ -195,7 +195,71 @@ const showtasks = async ({ message, say }) => {
           }
         });
     } else if (message.text === '-slackup show last week'){
-      
+      const now = Date.now();
+
+      var lastweek = 604800000;
+      var oneweek = now - lastweek;
+
+      collection
+        .find({ name: message.user }, { $exists: true })
+        .toArray(async function (err, data) {
+          if (data.length > 0) {
+            const tokenId = data[0].token;
+            const clickUp_user = parseInt(data[0].clickup_name);
+
+            const header_config = {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: tokenId,
+              },
+            };
+            const getTeam = await axios
+              .get(`https://api.clickup.com/api/v2/team`, header_config)
+              .catch(Error);
+            var allTeams = getTeam.data.teams;
+            Array.from(allTeams).forEach(async (team) => {
+              var taskArray = await getTasks(
+                team,
+                tokenId,
+                clickUp_user,
+                oneweek
+              );
+              Array.from(taskArray).forEach(async (task) => {
+                var dueDate = new Date(
+                  parseInt(task.due_date)
+                ).toLocaleDateString(
+                  "en-IN",
+                  { year: "numeric", month: "short", day: "numeric" },
+                  { timeZone: "Asia/Kolkata" }
+                );
+                var assignees = task.assignees.map((a) => a.id);
+                if (!assignees.includes(clickUp_user)) {
+                  return;
+                }
+
+                if (dueDate == "Invalid Date") {
+                  await say("*task name:* `" + task.name + "`");
+                } else {
+                  await say(
+                    "*task name:* `" +
+                      task.name +
+                      "` || " +
+                      "*Due Date:* `" +
+                      dueDate +
+                      "`"
+                  );
+                }
+              });
+            });
+          } else {
+            await say(
+              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+            );
+            await say(
+              `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
+            );
+          }
+        });
     }
   } catch (error) {
     console.error(error);
