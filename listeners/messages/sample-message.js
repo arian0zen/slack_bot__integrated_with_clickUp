@@ -218,5 +218,5 @@ var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
     )
     .catch(Error);
   allTasks = getTask.data.tasks;
-  return allTasks;
+  return allTasks; //returning an array of objects of all tasks
 };
