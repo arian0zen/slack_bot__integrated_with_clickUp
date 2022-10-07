@@ -129,7 +129,6 @@ const showtasks = async ({ message, say }) => {
           }
         });
     } else if (message.text === "-slackup show latest") {
-      await say ("what you mean")
       const now = Date.now();
 
       var threedays = 259200000;
@@ -173,7 +172,7 @@ const showtasks = async ({ message, say }) => {
                 }
 
                 if (dueDate == "Invalid Date") {
-                  await say("*task name:* `" + task.name + "`", "i am here");
+                  await say("*task name:* `" + task.name + "`");
                 } else {
                   await say(
                     "*task name:* `" +
