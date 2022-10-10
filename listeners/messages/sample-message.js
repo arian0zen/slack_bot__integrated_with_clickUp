@@ -261,7 +261,7 @@ const showtasks = async ({ message, say }) => {
           }
         });
     } else if (message.text.includes("-slackup show priority")){
-      var mentionedPriority = message.text.split("-slackup show priority");
+      var mentionedPriority = message.text.split("-slackup show priority ");
 
       collection
         .find({ name: message.user }, { $exists: true })
@@ -299,7 +299,10 @@ const showtasks = async ({ message, say }) => {
                 if (!assignees.includes(clickUp_user)) {
                   return;
                 }
-                if(task.priority.priority!= mentionedPriority[1]){
+                if(task.priority === null){
+                  return;
+                }
+                if(task.priority.priority != mentionedPriority[1]){
                   return;
                 }
 
