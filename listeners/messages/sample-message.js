@@ -299,7 +299,7 @@ const showtasks = async ({ message, say }) => {
                 if (!assignees.includes(clickUp_user)) {
                   return;
                 }
-                if(task.priority === null){
+                if(task.priority == null){
                   return;
                 }
                 if(task.priority.priority != mentionedPriority[1]){
