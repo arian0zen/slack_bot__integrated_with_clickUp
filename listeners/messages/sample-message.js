@@ -31,7 +31,7 @@ const replyhey = async ({ message, say }) => {
         "`-slackup show tasks` : *this command will show all the tasks available in your account with due date*"
       );
       await say(
-        "`-slackup show <mention priority here>` : *this will show tasks of a particular priority*"
+        "`-slackup show priority <mention priority here>` : *this will show tasks of a particular priority*"
       );
       await say(
         "`-slackup show latest` : *this will show you last 5 added tasks*"
@@ -194,7 +194,7 @@ const showtasks = async ({ message, say }) => {
             );
           }
         });
-    } else if (message.text === '-slackup show last week'){
+    } else if (message.text === "-slackup show last week"){
       const now = Date.now();
 
       var lastweek = 604800000;
@@ -234,6 +234,72 @@ const showtasks = async ({ message, say }) => {
                 );
                 var assignees = task.assignees.map((a) => a.id);
                 if (!assignees.includes(clickUp_user)) {
+                  return;
+                }
+
+                if (dueDate == "Invalid Date") {
+                  await say("*task name:* `" + task.name + "`");
+                } else {
+                  await say(
+                    "*task name:* `" +
+                      task.name +
+                      "` || " +
+                      "*Due Date:* `" +
+                      dueDate +
+                      "`"
+                  );
+                }
+              });
+            });
+          } else {
+            await say(
+              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+            );
+            await say(
+              `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
+            );
+          }
+        });
+    } else if (message.text.includes("-slackup show priority")){
+      var mentionedPriority = message.text.split("-slackup show priority");
+
+      collection
+        .find({ name: message.user }, { $exists: true })
+        .toArray(async function (err, data) {
+          if (data.length > 0) {
+            const tokenId = data[0].token;
+            const clickUp_user = parseInt(data[0].clickup_name);
+
+            const header_config = {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: tokenId,
+              },
+            };
+            const getTeam = await axios
+              .get(`https://api.clickup.com/api/v2/team`, header_config)
+              .catch(Error);
+            var allTeams = getTeam.data.teams;
+            Array.from(allTeams).forEach(async (team) => {
+              var taskArray = await getTasks(
+                team,
+                tokenId,
+                clickUp_user,
+                0
+              );
+              Array.from(taskArray).forEach(async (task) => {
+                var dueDate = new Date(
+                  parseInt(task.due_date)
+                ).toLocaleDateString(
+                  "en-IN",
+                  { year: "numeric", month: "short", day: "numeric" },
+                  { timeZone: "Asia/Kolkata" }
+                );
+                var assignees = task.assignees.map((a) => a.id);
+                if (!assignees.includes(clickUp_user)) {
+                  return;
+                }
+                if(task.priority.priority!= mentionedPriority[1]){
                   return;
                 }
 
