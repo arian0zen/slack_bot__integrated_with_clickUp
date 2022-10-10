@@ -262,7 +262,7 @@ const showtasks = async ({ message, say }) => {
         });
     }
   } catch (error) {
-    console.error(error);
+    await say (error);
   }
 };
 
