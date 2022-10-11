@@ -335,7 +335,16 @@ const showtasks = async ({ message, say }) => {
   }
 };
 
-module.exports = { replyhey, clickuplogin, showtasks };
+const addTask = async ({ message, say }) => {
+  try {
+    await say ("do you have added task from slack bot list on clickup?")
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+module.exports = { replyhey, clickuplogin, showtasks, addTask };
 
 var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
   const header_config = {

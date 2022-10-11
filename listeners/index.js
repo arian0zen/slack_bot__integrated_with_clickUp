@@ -7,6 +7,6 @@ module.exports.registerListeners = (app) => {
   messages.replytohey(app);
   messages.requesttologin(app);
   messages.replyshow(app);
-  // messages.register3(app);
+  messages.replyAdd(app);
   // messages.register4(app);
 };
