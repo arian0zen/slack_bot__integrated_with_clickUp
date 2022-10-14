@@ -11,4 +11,4 @@ module.exports.replyshow = (app) => {
 };
 module.exports.replyAdd = (app) => {
   app.message("-slackup add", addTask);
-};
+}; //add messages
