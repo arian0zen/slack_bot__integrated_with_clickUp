@@ -337,7 +337,32 @@ const showtasks = async ({ message, say }) => {
 
 const addTask = async ({ message, say }) => {
   try {
-    await say ("do you have added task from slack bot list on clickup?")
+    collection
+        .find({ name: message.user }, { $exists: true })
+        .toArray(async function (err, data) {
+          if (data.length > 0) {
+            const tokenId = data[0].token;
+            const clickUp_user = parseInt(data[0].clickup_name);
+            const listToAdd = data[0].slackList_id;
+
+            const header_config = {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: tokenId,
+              },
+            };
+            await say(listToAdd, header_config);
+
+
+          } else {
+            await say(
+              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+            );
+            await say(
+              `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
+            );
+          }
+        });
   } catch (error) {
     console.error(error);
   }
