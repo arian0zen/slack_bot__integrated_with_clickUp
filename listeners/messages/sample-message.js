@@ -344,14 +344,25 @@ const addTask = async ({ message, say }) => {
             const tokenId = data[0].token;
             const clickUp_user = parseInt(data[0].clickup_name);
             const listToAdd = data[0].slackList_id;
+            const taskName = message.text.split('add ')[1];
+            
+            var body_addTask = {
+              name: taskName,
+              status: 'Open',
+            }
+            var headers =  {
+              'Content-Type': 'application/json',
+              Authorization: token
+            }
+            var addTask = await axios
+            .post(`https://api.clickup.com/api/v2/list/${listToAdd}/task`,
+            body_addTask,
+            {headers})
+              .catch(error => {
+                console.error('There was an error!', error);
+              });
 
-            const header_config = {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: tokenId,
-              },
-            };
-            await say(listToAdd, header_config);
+            await say(addTask.data);
 
 
           } else {
