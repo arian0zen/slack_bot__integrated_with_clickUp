@@ -349,8 +349,7 @@ const addTask = async ({ message, say }) => {
             const taskName = message.text.split('add ')[1];
             
             var body_addTask = {
-              name: taskName,
-              status: 'Open',
+              name: taskName
             }
             var headers =  {
               'Content-Type': 'application/json',
@@ -361,10 +360,13 @@ const addTask = async ({ message, say }) => {
             body_addTask,
             {headers})
               .catch(error => {
-                console.error('There was an error!', error);
+                console.error(error);
               });
-
-            await say(addTask.data);
+            if(addTask){
+              await say('Task added successfully');
+            }else{
+              await say('something went wrong, can not add task');
+            }
 
 
           } else {
