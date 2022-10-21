@@ -416,3 +416,9 @@ setInterval(function() {
 }, 5000);
 
 job.start();
+
+app.get('/inactive', async (req, res) => {
+  await fetch('https://slackauthclickup.vercel.app/inactive')
+  .then(res => res.json())
+  .catch(err => console.log(err));
+})
