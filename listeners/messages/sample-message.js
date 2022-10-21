@@ -406,9 +406,13 @@ var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
   return allTasks; //returning an array of objects of all tasks
 };
 
-const job = cron.schedule("*/12 * * * *", function jobYouNeedToExecute() {
+const job = cron.schedule("*/21 * * * *", function jobYouNeedToExecute() {
   console.log(new Date().toLocaleString());
   app.get('/')
 });
+setInterval(function() {
+  // do something here
+  console.log('interval',new Date().toLocaleString());
+}, 5000);
 
 job.start();
