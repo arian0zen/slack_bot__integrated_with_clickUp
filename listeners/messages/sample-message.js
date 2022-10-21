@@ -354,7 +354,7 @@ const addTask = async ({ message, say }) => {
             }
             var headers =  {
               'Content-Type': 'application/json',
-              Authorization: token
+              Authorization: tokenId
             }
             var addTask = await axios
             .post(`https://api.clickup.com/api/v2/list/${listToAdd}/task`,
