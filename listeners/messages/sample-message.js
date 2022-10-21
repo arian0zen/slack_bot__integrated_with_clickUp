@@ -336,6 +336,7 @@ const showtasks = async ({ message, say }) => {
 };
 
 const addTask = async ({ message, say }) => {
+  const collection = connection.db.collection("users");
   try {
     collection
         .find({ name: message.user }, { $exists: true })
