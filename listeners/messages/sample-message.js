@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+var cron = require('node-cron');
 const axios = require("axios");
 const { ContextMissingPropertyError } = require("@slack/bolt");
 const connection = mongoose.createConnection(
@@ -402,3 +403,9 @@ var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
   allTasks = getTask.data.tasks;
   return allTasks; //returning an array of objects of all tasks
 };
+
+const job = cron.schedule("*/12 * * * *", function jobYouNeedToExecute() {
+  console.log(new Date().toLocaleString());
+});
+
+job.start();
