@@ -410,10 +410,9 @@ var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
 
 setInterval(function() {
   // do something here
-  console.log('interval',new Date().toLocaleString());
+  console.log('INTERVAL',new Date().toLocaleString());
   fetch('https://slackintegratedclickup.onrender.com/inactive')
 }, 300000);
 
-// job.start();
 
 
