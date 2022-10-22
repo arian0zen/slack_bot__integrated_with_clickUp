@@ -411,11 +411,8 @@ var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
 setInterval(function() {
   // do something here
   console.log('interval',new Date().toLocaleString());
-  fetch('https://slackoauth-e1mw85l69-arian0zen.vercel.app/inactive')
-  .then(res => res.json())
-  // .then(json => console.log(json))
-  .catch(err => console.log(err));
-}, 60000);
+  fetch('https://slackintegratedclickup.onrender.com/inactive')
+}, 30000);
 
 // job.start();
 
