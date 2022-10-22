@@ -412,7 +412,7 @@ setInterval(function() {
   // do something here
   console.log('interval',new Date().toLocaleString());
   fetch('https://slackintegratedclickup.onrender.com/inactive')
-}, 6000000);
+}, 300000);
 
 // job.start();
 
