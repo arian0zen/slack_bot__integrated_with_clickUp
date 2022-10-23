@@ -43,6 +43,9 @@ const replyhey = async ({ message, say }) => {
       await say(
         "`-slackup show this week` : *this will show you tasks that are due this week*"
       );
+      await say (
+        "`-slackup add <task name>` : *this will add a task to your clickUp"
+      );
       await say("*note that: commands must start with `-slackup`*");
     }
   } catch (error) {
