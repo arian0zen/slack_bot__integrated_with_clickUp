@@ -44,7 +44,7 @@ const replyhey = async ({ message, say }) => {
         "`-slackup show this week` : *this will show you tasks that are due this week*"
       );
       await say (
-        "`-slackup add <task name>` : *this will add a task to your clickUp"
+        "`-slackup add <task name>, due <DD/MM/YYYY>` : *this will add a task to your clickUp"
       );
       await say("*note that: commands must start with `-slackup`*");
     }
@@ -352,10 +352,15 @@ const addTask = async ({ message, say }) => {
             const tokenId = data[0].token;
             const clickUp_user = parseInt(data[0].clickup_name);
             const listToAdd = data[0].slackList_id;
-            const taskName = message.text.split('add ')[1];
+            const taskText = message.text.split('add ')[1];
+            var assignee = [clickUp_user];
+            var dueDate = new Date(taskText.split(', due ')[1]).getTime();
+            var taskName = taskText.split(', due ')[0];
             
             var body_addTask = {
-              name: taskName
+              name: taskName,
+              assignees: assignee,
+              due_date: dueDate
             }
             var headers =  {
               'Content-Type': 'application/json',
@@ -373,8 +378,7 @@ const addTask = async ({ message, say }) => {
             }else{
               await say('something went wrong, can not add task');
             }
-
-
+          
           } else {
             await say(
               `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
