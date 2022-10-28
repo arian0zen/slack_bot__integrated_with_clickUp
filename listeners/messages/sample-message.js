@@ -44,7 +44,7 @@ const replyhey = async ({ message, say }) => {
         "`-slackup show this week` : *this will show you tasks that are due this week*"
       );
       await say (
-        "`-slackup add <task name>, due <MM/DD/YYYY>` : *this will add a task to your clickUp*"
+        "`-slackup add <task name>, due: <MM/DD/YYYY>` : *this will add a task to your clickUp*"
       );
       await say("*mind that 'comma', and date should be strictly in that format*")
       await say (
@@ -55,6 +55,24 @@ const replyhey = async ({ message, say }) => {
         "`-slackup update <task id>, name: <updated name>` : *use this command to update only the task Name*"
       );
       await say("*to get the task id, use show task commands and get the id of desired tasks from there*")
+
+      await say (
+        "`-slackup comment on <task id>, comment text: <your comment here>` : *this will add a comment to that particular task*"
+      );
+      await say("*mind that 'comma'*")
+      await say (
+        "`-slackup view-comments of <task id> : *this will display all the comments under a particular task with their current status and id*"
+      );
+      await say (
+        "`-slackup edit-comment <comment id>, comment: <updated comment text>, status: <resolved or unsolved>` : *this will update/edit the comment and its status to your clickUp, keep in mind the status must be 'resolved' or 'unsolved'*"
+      );
+      await say ("`-slackup edit-comment <comment id>, status: <resolved or unsolved>` : *use this command to update only the status, keep in mind the status must be 'resolved' or 'unsolved'*")
+      await say (
+        "`-slackup update <comment id>, comment: <updated comment>` : *use this command to update only the comment text*"
+      );
+      await say("*to get the comment id, first use view comments commands and get the id of desired comments from there*")
+
+
       await say("*note that: commands must start with `-slackup`*");
     }
   } catch (error) {
@@ -536,13 +554,143 @@ const addComment = async({message, say }) => {
   }
 }
 const viewComments = async({message, say}) =>{
-  await say("supp")
+  const collectionv2 = connection.db.collection("users");
+  try {
+    collectionv2
+        .find({ name: message.user }, { $exists: true })
+        .toArray(async function (err, data) {
+          if (data.length > 0) {
+            var tokenId = data[0].token;
+            const clickUp_user = parseInt(data[0].clickup_name);
+            const taskId = message.text.split('of ')[1];
+            
+            var headers =  {
+              "Content-Type": "application/json",
+              Authorization: tokenId
+            }
+            var viewComment = await axios
+            .get(`https://api.clickup.com/api/v2/task/${taskId}/comment`,
+            {headers})
+              .catch(error => {
+                console.error(error);
+              });
+            if(viewComment){
+              var allComments = viewComment.data.comments
+              Array.from(allComments).forEach(async (comment) => {
+                var status = comment.resolved;
+                if(status == false){
+                  status = 'not resolved yet'
+                } else{
+                  status = 'resolved'
+                }
+                await say("*Comment Text:* `" +
+                comment.comment_text +
+                "` || " +
+                "*Status:* `" +
+                status +
+                "` || " +
+                "*Comment id:* " +
+                comment.id + "")
+              });
+            }else{
+              await say('something went wrong, can not show comments');
+            }
+            
+          
+          } else {
+            await say(
+              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+            );
+            await say(
+              `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
+            );
+          }
+        });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+const editComments = async({message, say}) =>{
+  const collectionv2 = connection.db.collection("users");
+  try {
+    collectionv2
+        .find({ name: message.user }, { $exists: true })
+        .toArray(async function (err, data) {
+          if (data.length > 0) {
+            var tokenId = data[0].token;
+            var clickUp_user = parseInt(data[0].clickup_name);
+            var commentText = message.text.split('edit-comment ')[1];
+            
+            if(message.text.includes("comment: ") && !message.text.includes("status: ")) {
+              var commentId = commentText.split(", comment: ")[0];
+              var updatedComment = commentText.split(', comment: ')[1];
+              var body_updateComment = {
+                comment_text: updatedComment
+              }
+
+            } else if (!message.text.includes("comment: ") && message.text.includes("status: ")){
+              var commentId = commentText.split(", status: ")[0];
+              var updatedStatus = commentText.split(", status: ")[1];
+              if(updatedStatus == 'resolved'){
+                updatedStatus = true
+              } else if(updatedStatus == 'unsolved'){
+                updatedStatus = false
+              }
+              var body_updateComment = {
+                resolved: updatedStatus
+              }
+            } else{
+                var commentId = commentText.split(", comment: ")[0];
+                var updateInfo = commentText.split(', comment: ')[1];
+                var updatedComment = updateInfo.split(', status: ')[0];
+                var updatedStatus = updateInfo.split(', status: ')[1];
+                if(updatedStatus == 'resolved'){
+                  updatedStatus = true
+                } else if(updatedStatus == 'unsolved'){
+                  updatedStatus = false
+                }
+                var body_updateComment = {
+                  comment_text: updatedComment,
+                  resolved: updatedStatus
+                }
+                
+            }
+            
+            var headers =  {
+              'Content-Type': 'application/json',
+              Authorization: tokenId
+            }
+            var editComment = await axios
+            .put(`https://api.clickup.com/api/v2/comment/${commentId}`,
+            body_updateComment,
+            {headers})
+              .catch(error => {
+                console.error(error);
+              });
+            if(editComment){
+              await say('Comment updated successfully');
+            }else{
+              await say('something went wrong, can not update comment at this time');
+            }
+          
+          } else {
+            await say(
+              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+            );
+            await say(
+              `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
+            );
+          }
+        });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 
 
-
-module.exports = { replyhey, clickuplogin, showtasks, addTask, editTask, addComment};
+module.exports = { replyhey, clickuplogin, showtasks, addTask, editTask, addComment, viewComments, editComments};
 
 var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
   const header_config = {
