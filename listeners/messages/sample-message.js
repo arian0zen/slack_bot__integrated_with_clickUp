@@ -44,8 +44,17 @@ const replyhey = async ({ message, say }) => {
         "`-slackup show this week` : *this will show you tasks that are due this week*"
       );
       await say (
-        "`-slackup add <task name>, due <DD/MM/YYYY>` : *this will add a task to your clickUp"
+        "`-slackup add <task name>, due <MM/DD/YYYY>` : *this will add a task to your clickUp*"
       );
+      await say("*mind that 'comma', and date should be strictly in that format*")
+      await say (
+        "`-slackup update <task id>, name: <updated name>, due: <MM/DD/YYYY>` : *this will update the taskName and Due Date to your clickUp*"
+      );
+      await say ("`-slackup update <task id>, due: <MM/DD/YYYY>` : *use this command to update only the due date*")
+      await say (
+        "`-slackup update <task id>, name: <updated name>` : *use this command to update only the task Name*"
+      );
+      await say("*to get the task id, use show task commands and get the id of desired tasks from there*")
       await say("*note that: commands must start with `-slackup`*");
     }
   } catch (error) {
@@ -121,7 +130,9 @@ const showtasks = async ({ message, say }) => {
                       "` || " +
                       "*Due Date:* `" +
                       dueDate +
-                      "`"
+                      "` || " +
+                      "*task id:* " +
+                      task.id + ""
                   );
                 }
               });
@@ -187,7 +198,9 @@ const showtasks = async ({ message, say }) => {
                       "` || " +
                       "*Due Date:* `" +
                       dueDate +
-                      "`"
+                      "` || " +
+                      "*task id:* " +
+                      task.id + ""
                   );
                 }
               });
@@ -253,7 +266,9 @@ const showtasks = async ({ message, say }) => {
                       "` || " +
                       "*Due Date:* `" +
                       dueDate +
-                      "`"
+                      "` || " +
+                      "*task id:* " +
+                      task.id + ""
                   );
                 }
               });
@@ -322,7 +337,9 @@ const showtasks = async ({ message, say }) => {
                       "` || " +
                       "*Due Date:* `" +
                       dueDate +
-                      "`"
+                      "` || " +
+                      "*task id:* " +
+                      task.id + ""
                   );
                 }
               });
@@ -354,8 +371,8 @@ const addTask = async ({ message, say }) => {
             const listToAdd = data[0].slackList_id;
             const taskText = message.text.split('add ')[1];
             var assignee = [clickUp_user];
-            var dueDate = new Date(taskText.split(', due ')[1]).getTime();
-            var taskName = taskText.split(', due ')[0];
+            var dueDate = new Date(taskText.split(', due: ')[1]).getTime();
+            var taskName = taskText.split(', due: ')[0];
             
             var body_addTask = {
               name: taskName,
@@ -393,8 +410,77 @@ const addTask = async ({ message, say }) => {
   }
 };
 
+const editTask = async({message, say }) => {
+  const collectionv2 = connection.db.collection("users");
+  try {
+    collectionv2
+        .find({ name: message.user }, { $exists: true })
+        .toArray(async function (err, data) {
+          if (data.length > 0) {
+            var tokenId = data[0].token;
+            var clickUp_user = parseInt(data[0].clickup_name);
+            var taskText = message.text.split('update ')[1];
+            
+            if(message.text.includes("name: ") && !message.text.includes("due: ")) {
+              var taskId = taskText.split(", name: ")[0];
+              var updatedName = taskText.split(', name: ')[1];
+              var body_updateTask = {
+                name: updatedName
+              }
 
-module.exports = { replyhey, clickuplogin, showtasks, addTask };
+            } else if (!message.text.includes("name: ") && message.text.includes("due: ")){
+              var taskId = taskText.split(", due: ")[0];
+              var updatedDate = new Date(taskText.split(", due: ")[1]).getTime();
+              var body_updateTask = {
+                due_date: updatedDate
+              }
+            } else{
+                var taskId = taskText.split(", name: ")[0];
+                var updateInfo = taskText.split(', name: ')[1];
+                const updatedName = updateInfo.split(', due: ')[0];
+                const updatedDate = new Date(updateInfo.split(', due: ')[1]).getTime();
+                var body_updateTask = {
+                  name: updatedName,
+                  due_date: updatedDate
+                }
+                
+            }
+            
+            var headers =  {
+              'Content-Type': 'application/json',
+              Authorization: tokenId
+            }
+            var editTask = await axios
+            .put(`https://api.clickup.com/api/v2/task/${taskId}`,
+            body_updateTask,
+            {headers})
+              .catch(error => {
+                console.error(error);
+              });
+            if(editTask){
+              await say('Task updated successfully');
+            }else{
+              await say('something went wrong, can not update task');
+            }
+          
+          } else {
+            await say(
+              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+            );
+            await say(
+              `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
+            );
+          }
+        });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+
+
+module.exports = { replyhey, clickuplogin, showtasks, addTask, editTask };
 
 var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
   const header_config = {

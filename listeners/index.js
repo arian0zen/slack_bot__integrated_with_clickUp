@@ -8,5 +8,6 @@ module.exports.registerListeners = (app) => {
   messages.requesttologin(app);
   messages.replyshow(app);
   messages.replyAdd(app);
+  messages.replyEdit(app);
   // messages.register4(app);
 };

@@ -1,4 +1,4 @@
-const { replyhey, clickuplogin, showtasks, addTask } = require('./sample-message');
+const { replyhey, clickuplogin, showtasks, addTask, editTask } = require('./sample-message');
 
 module.exports.replytohey = (app) => {
   app.message('-slackup', replyhey);
@@ -12,3 +12,7 @@ module.exports.replyshow = (app) => {
 module.exports.replyAdd = (app) => {
   app.message("-slackup add", addTask);
 }; //add messages
+
+module.exports.replyEdit = (app) =>{
+  app.message("-slackup update", editTask);
+};
