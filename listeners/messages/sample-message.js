@@ -122,7 +122,9 @@ const showtasks = async ({ message, say }) => {
                   return;
                 }
                 if (dueDate == "Invalid Date") {
-                  await say("*task name:* `" + task.name + "`");
+                  await say("*task name:* `" + task.name + "` || " +
+                  "*task id:* " +
+                  task.id + "");
                 } else {
                   await say(
                     "*task name:* `" +
@@ -190,7 +192,9 @@ const showtasks = async ({ message, say }) => {
                 }
 
                 if (dueDate == "Invalid Date") {
-                  await say("*task name:* `" + task.name + "`");
+                  await say("*task name:* `" + task.name + "` || " +
+                  "*task id:* " +
+                  task.id + "");
                 } else {
                   await say(
                     "*task name:* `" +
@@ -258,7 +262,9 @@ const showtasks = async ({ message, say }) => {
                 }
 
                 if (dueDate == "Invalid Date") {
-                  await say("*task name:* `" + task.name + "`");
+                  await say("*task name:* `" + task.name + "` || " +
+                  "*task id:* " +
+                  task.id + "");
                 } else {
                   await say(
                     "*task name:* `" +
@@ -329,7 +335,9 @@ const showtasks = async ({ message, say }) => {
                 }
 
                 if (dueDate == "Invalid Date") {
-                  await say("*task name:* `" + task.name + "`");
+                  await say("*task name:* `" + task.name + "` || " +
+                  "*task id:* " +
+                  task.id + "");
                 } else {
                   await say(
                     "*task name:* `" +
@@ -476,11 +484,65 @@ const editTask = async({message, say }) => {
     console.error(error);
   }
 }
+const addComment = async({message, say }) => {
+  const collectionv2 = connection.db.collection("users");
+  try {
+    collectionv2
+        .find({ name: message.user }, { $exists: true })
+        .toArray(async function (err, data) {
+          if (data.length > 0) {
+            var tokenId = data[0].token;
+            const clickUp_user = parseInt(data[0].clickup_name);
+            var assignee = [clickUp_user];
+            var commentInfo = message.text.split('comment on ')[1];
+            var commentText = commentInfo.split(', comment text: ')[1];
+            var taskId = commentInfo.split(', comment text: ')[0];
+            
+            var body_addComment = {
+              comment_text: commentText,
+              assignee: assignee,
+              notify_all: true
+              
+            }
+            var headers =  {
+              'Content-Type': 'application/json',
+              Authorization: tokenId
+            }
+            var addComment = await axios
+            .post(`https://api.clickup.com/api/v2/task/${taskId}/comment`,
+            body_addComment,
+            {headers})
+              .catch(error => {
+                console.error(error);
+              });
+            if(addComment){
+              await say('Comment added successfully');
+            }else{
+              await say('something went wrong, can not add comment');
+            }
+            
+          
+          } else {
+            await say(
+              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+            );
+            await say(
+              `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
+            );
+          }
+        });
+  } catch (error) {
+    console.error(error);
+  }
+}
+const viewComments = async({message, say}) =>{
+  await say("supp")
+}
 
 
 
 
-module.exports = { replyhey, clickuplogin, showtasks, addTask, editTask };
+module.exports = { replyhey, clickuplogin, showtasks, addTask, editTask, addComment};
 
 var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
   const header_config = {
@@ -498,6 +560,7 @@ var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
   allTasks = getTask.data.tasks;
   return allTasks; //returning an array of objects of all tasks
 };
+
 
 
 setInterval(function() {
