@@ -15,19 +15,19 @@ const app = new App({
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: "you-are-lucky-babe",
   scopes: ["app_mentions:read","im:history", "channels:history", "channels:read", "groups:history", "im:history", "incoming-webhook", "mpim:history", "chat:write", "commands"],
-  installerOptions: {
-    callbackOptions: {
-      success: (installation) => {
+  // installerOptions: {
+  //   callbackOptions: {
+  //     success: (installation) => {
         
-        // Send a welcome message to the user as a DM
-        app.client.chat.postMessage({
-          token: installation.bot.token,
-          channel: installation.user.id,
-          text: ':wave: Welcome! use `-slackup help` you will know everything'
-        });
-      }
-    }
-  },
+  //       // Send a welcome message to the user as a DM
+  //       app.client.chat.postMessage({
+  //         token: installation.bot.token,
+  //         channel: installation.user.id,
+  //         text: ':wave: Welcome! use `-slackup help` you will know everything'
+  //       });
+  //     }
+  //   }
+  // },
   installationStore: {
     stateVerification: false,
     storeInstallation: async (installation) => {
