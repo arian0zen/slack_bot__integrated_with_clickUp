@@ -20,8 +20,7 @@ const app = new App({
       success: (installation, installOptions, req, res) => {
         
 
-        // Send a welcome message to the user as a DM
-        const client = new WebClient(installation.bot.token);
+      
         client.chat.postMessage({
           token: installation.bot.token,
           channel: installation.user.id,
