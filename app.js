@@ -22,7 +22,7 @@ const app = new App({
         //
         // Learn how to redirect into Slack:
         // https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/index.ts#L527-L552
-        res.send('successful');
+        
 
         // Send a welcome message to the user as a DM
         app.client.chat.postMessage({
