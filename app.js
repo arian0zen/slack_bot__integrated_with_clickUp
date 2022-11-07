@@ -14,7 +14,25 @@ const app = new App({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: "you-are-lucky-babe",
-  scopes: ["app_mentions:read", "channels:history", "channels:read", "groups:history", "im:history", "incoming-webhook", "mpim:history", "chat:write", "commands"],
+  scopes: ["app_mentions:read","im:history", "channels:history", "channels:read", "groups:history", "im:history", "incoming-webhook", "mpim:history", "chat:write", "commands"],
+  installerOptions: {
+    callbackOptions: {
+      success: (installation, installOptions, req, res) => {
+        // Display a success page or redirect back into Slack
+        //
+        // Learn how to redirect into Slack:
+        // https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/index.ts#L527-L552
+        res.send('successful');
+
+        // Send a welcome message to the user as a DM
+        app.client.chat.postMessage({
+          token: installation.bot.token,
+          channel: installation.user.id,
+          text: ':wave: Welcome! use `-slackup help` you will know everything'
+        });
+      }
+    }
+  },
   installationStore: {
     stateVerification: false,
     storeInstallation: async (installation) => {
