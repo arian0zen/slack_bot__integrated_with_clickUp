@@ -17,15 +17,8 @@ const app = new App({
   scopes: ["app_mentions:read","im:history", "channels:history", "channels:read", "groups:history", "im:history", "incoming-webhook", "mpim:history", "chat:write", "commands"],
   installerOptions: {
     callbackOptions: {
-      success: (installation, installOptions, req, res) => {
-        // Display a success page or redirect back into Slack
-        //
-        // Learn how to redirect into Slack:
-        // https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/index.ts#L527-L552
-        res.json({
-          'message': 'Successfully added to Slack'
-        });
-
+      success: (installation) => {
+        
         // Send a welcome message to the user as a DM
         app.client.chat.postMessage({
           token: installation.bot.token,
