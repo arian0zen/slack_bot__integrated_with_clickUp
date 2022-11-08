@@ -16,7 +16,6 @@ const app = new App({
   stateSecret: "you-are-lucky-babe",
   scopes: ["app_mentions:read","im:history", "channels:history", "channels:read", "groups:history", "im:history", "incoming-webhook", "mpim:history", "chat:write", "commands"],
   installerOptions: {
-    // redirectUriPath: '/slack/outh_redirect', // and here!
     callbackOptions: {
       success: (installation, InstallOptions, req, res) => {
         
