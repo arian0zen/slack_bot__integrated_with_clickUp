@@ -16,23 +16,20 @@ const app = new App({
   stateSecret: "you-are-lucky-babe",
   scopes: ["app_mentions:read","im:history", "channels:history", "channels:read", "groups:history", "im:history", "incoming-webhook", "mpim:history", "chat:write", "commands"],
   installerOptions: {
+    // redirectUriPath: '/slack/outh_redirect', // and here!
     callbackOptions: {
-      success: (installation, installOptions, req, res) => {
-        // Display a success page or redirect back into Slack
-        //
-        // Learn how to redirect into Slack:
-        // https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/index.ts#L527-L552
-        res.redirect('https://slackauthclickup.vercel.app/');
-
-        // Send a welcome message to the user as a DM
+      success: (installation, InstallOptions, req, res) => {
+        
         app.client.chat.postMessage({
           token: installation.bot.token,
           channel: installation.user.id,
-          text: ':wave: Welcome!'
+          text: ':wave: Hieee I am a bot `clickUp to Slack!` use `-slackup help` to get started.'
         });
+        res.end('message: the bot was successfully installed.');
       }
     }
   },
+  
   installationStore: {
     stateVerification: false,
     storeInstallation: async (installation) => {

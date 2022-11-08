@@ -87,7 +87,7 @@ const clickuplogin = async ({ message, say }) => {
     collection
       .find({ name: message.user }, { $exists: true })
       .toArray(async function (err, data) {
-        console.log(data);
+        
         if (data.length > 0) {
           await say("okay, i see.. you are already authorized to clickUp");
         } else {
