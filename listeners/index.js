@@ -12,5 +12,4 @@ module.exports.registerListeners = (app) => {
   messages.replyAddComment(app);
   messages.replyViewComment(app);
   messages.replyEditComment(app);
-  // messages.register4(app);
 };
