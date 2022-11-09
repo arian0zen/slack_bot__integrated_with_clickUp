@@ -72,7 +72,7 @@ registerListeners(app);
 (async () => {
   await app.start();
 
-  console.log("⚡️ Bolt app is running!!");
+  console.log("⚡️ Bolt app is running!");
   db.connect();
   console.log("db is connected!");
 })();
