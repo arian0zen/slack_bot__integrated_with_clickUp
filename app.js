@@ -24,7 +24,7 @@ const app = new App({
           channel: installation.user.id,
           text: ':wave: Hieee I am a bot `clickUp to Slack!` use `-slackup help` to get started.'
         });
-        res.redirect("https://nidia659.softr.app/");
+        res.end('message: the bot was successfully installed.');
       }
     }
   },
