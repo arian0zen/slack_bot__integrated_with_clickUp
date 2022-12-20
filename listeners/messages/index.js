@@ -1,27 +1,27 @@
 const { replyhey, clickuplogin, showtasks, addTask, editTask, addComment, viewComments, editComments } = require('./sample-message');
 
 module.exports.replytohey = (app) => {
-  app.message('-slackup', replyhey);
+  app.message('-slackupp', replyhey);
 };
 module.exports.requesttologin = (app) => {
-  app.message("-slackup login", clickuplogin);
+  app.message("-slackupp login", clickuplogin);
 };
 module.exports.replyshow = (app) => {
-  app.message("-slackup show", showtasks);
+  app.message("-slackupp show", showtasks);
 };
 module.exports.replyAdd = (app) => {
-  app.message("-slackup add", addTask);
+  app.message("-slackupp add", addTask);
 }; //add messages
 
 module.exports.replyEdit = (app) =>{
-  app.message("-slackup update", editTask);
+  app.message("-slackupp update", editTask);
 };
 module.exports.replyAddComment = (app) =>{
-  app.message("-slackup comment", addComment);
+  app.message("-slackupp comment", addComment);
 };
 module.exports.replyViewComment = (app) =>{
-  app.message("-slackup view-comment", viewComments);
+  app.message("-slackupp view-comment", viewComments);
 };
 module.exports.replyEditComment = (app) =>{
-  app.message("-slackup edit-comment", editComments);
+  app.message("-slackupp edit-comment", editComments);
 };

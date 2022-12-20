@@ -14,7 +14,7 @@ const app = new App({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: "you-are-lucky-babe",
-  scopes: ["app_mentions:read","im:history", "channels:history", "channels:read", "groups:history", "im:history", "incoming-webhook", "mpim:history", "chat:write"],
+  scopes: ["app_mentions:read","im:history", "channels:history", "channels:read", "groups:history", "im:history", "incoming-webhook", "mpim:history", "chat:write", "channels:write", "groups:write", "mpim:write", "im:write"],
   installerOptions: {
     callbackOptions: {
       success: (installation, InstallOptions, req, res) => {
@@ -22,7 +22,7 @@ const app = new App({
         app.client.chat.postMessage({
           token: installation.bot.token,
           channel: installation.user.id,
-          text: ':wave: Hieee I am a bot `clickUp to Slack!` use `-slackup help` to get started.'
+          text: ':wave: Hieee I am a bot `ClickUp to Slack!` use `-slackupp help` to get started.'
         });
         res.end('message: the bot was successfully installed.');
       }
@@ -62,9 +62,8 @@ const app = new App({
 
 
 
-
-
 registerListeners(app);
+// directMessageFromBot(app);
 
 
 

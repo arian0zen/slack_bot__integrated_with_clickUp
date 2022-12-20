@@ -16,64 +16,64 @@ const connection = mongoose.createConnection(
 
 const replyhey = async ({ message, say }) => {
   try {
-    if (message.text === "-slackup") {
+    if (message.text === "-slackupp") {
       await say(`hey <@${message.user}>!!! I hope you are doing well..`);
       await say(
         `you can say` +
-          " `-slackup help`" +
+          " `-slackupp help`" +
           "to learn about the commands you can order me"
       );
     } else if (
-      message.text.startsWith("-slackup") &&
+      message.text.startsWith("-slackupp") &&
       message.text.includes("help")
     ) {
       await say(
-        "well, you can use these commands to ask slackup to connect with your clickUp profile"
+        "well, you can use these commands to ask slackupp to connect with your ClickUp profile"
       );
 
       await say(
-        "`-slackup show tasks` : *this command will show all the tasks available in your account with due date*"
+        "`-slackupp show tasks` : *this command will show all the tasks available in your account with due date*"
       );
       await say(
-        "`-slackup show priority <mention priority here>` : *this will show tasks of a particular priority*"
+        "`-slackupp show priority <mention priority here>` : *this will show tasks of a particular priority*"
       );
       await say(
-        "`-slackup show latest` : *this will show you last 5 added tasks*"
+        "`-slackupp show latest` : *this will show you last 5 added tasks*"
       );
       await say(
-        "`-slackup show this week` : *this will show you tasks that are due this week*"
+        "`-slackupp show this week` : *this will show you tasks that are due this week*"
       );
       await say (
-        "`-slackup add <task name>, due: <MM/DD/YYYY>` : *this will add a task to your clickUp*"
+        "`-slackupp add <task name>, due: <MM/DD/YYYY>` : *this will add a task to your ClickUp*"
       );
       await say("*mind that 'comma', and date should be strictly in that format*")
       await say (
-        "`-slackup update <task id>, name: <updated name>, due: <MM/DD/YYYY>` : *this will update the taskName and Due Date to your clickUp*"
+        "`-slackupp update <task id>, name: <update name>, due: <MM/DD/YYYY>` : *this will update the taskName and Due Date to your ClickUp*"
       );
-      await say ("`-slackup update <task id>, due: <MM/DD/YYYY>` : *use this command to update only the due date*")
+      await say ("`-slackupp update <task id>, due: <MM/DD/YYYY>` : *use this command to update only the due date*")
       await say (
-        "`-slackup update <task id>, name: <updated name>` : *use this command to update only the task Name*"
+        "`-slackupp update <task id>, name: <update name>` : *use this command to update only the task Name*"
       );
       await say("*to get the task id, use show task commands and get the id of desired tasks from there*")
 
       await say (
-        "`-slackup comment on <task id>, comment text: <your comment here>` : *this will add a comment to that particular task*"
+        "`-slackupp comment on <task id>, comment text: <your comment here>` : *this will add a comment to that particular task*"
       );
       await say("*mind that 'comma'*")
       await say (
-        "`-slackup view-comments of <task id> : *this will display all the comments under a particular task with their current status and id*"
+        "`-slackupp view-comments of <task id>` : *this will display all the comments under a particular task with their current status and id*"
       );
       await say (
-        "`-slackup edit-comment <comment id>, comment: <updated comment text>, status: <resolved or unsolved>` : *this will update/edit the comment and its status to your clickUp, keep in mind the status must be 'resolved' or 'unsolved'*"
+        "`-slackupp edit-comment <comment id>, comment: <update comment text>, status: <resolved or unsolved>` : *this will update/edit the comment and its status to your ClickUp, keep in mind the status must be 'resolved' or 'unsolved'*"
       );
-      await say ("`-slackup edit-comment <comment id>, status: <resolved or unsolved>` : *use this command to update only the status, keep in mind the status must be 'resolved' or 'unsolved'*")
+      await say ("`-slackupp edit-comment <comment id>, status: <resolved or unsolved>` : *use this command to update only the status, keep in mind the status must be 'resolved' or 'unsolved'*")
       await say (
-        "`-slackup update <comment id>, comment: <updated comment>` : *use this command to update only the comment text*"
+        "`-slackupp update <comment id>, comment: <update comment>` : *use this command to update only the comment text*"
       );
       await say("*to get the comment id, first use view comments commands and get the id of desired comments from there*")
 
 
-      await say("*note that: commands must start with `-slackup`*");
+      await say("*note that: commands must start with `-slackupp`*");
     }
   } catch (error) {
     console.error(error);
@@ -89,10 +89,10 @@ const clickuplogin = async ({ message, say }) => {
       .toArray(async function (err, data) {
         
         if (data.length > 0) {
-          await say("okay, i see.. you are already authorized to clickUp");
+          await say("okay, i see.. you are already authorized to ClickUp");
         } else {
           await say(
-            `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+            `ohh hooo <@${message.user}>.. you are not authorized to ClickUp, go to the link below to login`
           );
           await say(
             `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
@@ -107,7 +107,7 @@ const clickuplogin = async ({ message, say }) => {
 const showtasks = async ({ message, say }) => {
   const collection = connection.db.collection("users");
   try {
-    if (message.text === "-slackup show tasks") {
+    if (message.text === "-slackupp show tasks") {
       collection
         .find({ name: message.user }, { $exists: true })
         .toArray(async function (err, data) {
@@ -159,14 +159,14 @@ const showtasks = async ({ message, say }) => {
             });
           } else {
             await say(
-              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+              `ohh hooo <@${message.user}>.. you are not authorized to ClickUp, go to the link below to login`
             );
             await say(
               `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
             );
           }
         });
-    } else if (message.text === "-slackup show latest") {
+    } else if (message.text === "-slackupp show latest") {
       const now = Date.now();
 
       var threedays = 259200000;
@@ -229,14 +229,14 @@ const showtasks = async ({ message, say }) => {
             });
           } else {
             await say(
-              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+              `ohh hooo <@${message.user}>.. you are not authorized to ClickUp, go to the link below to login`
             );
             await say(
               `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
             );
           }
         });
-    } else if (message.text === "-slackup show last week"){
+    } else if (message.text === "-slackupp show last week"){
       const now = Date.now();
 
       var lastweek = 604800000;
@@ -299,15 +299,15 @@ const showtasks = async ({ message, say }) => {
             });
           } else {
             await say(
-              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+              `ohh hooo <@${message.user}>.. you are not authorized to ClickUp, go to the link below to login`
             );
             await say(
               `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
             );
           }
         });
-    } else if (message.text.includes("-slackup show priority")){
-      var mentionedPriority = message.text.split("-slackup show priority ");
+    } else if (message.text.includes("-slackupp show priority")){
+      var mentionedPriority = message.text.split("-slackupp show priority ");
 
       collection
         .find({ name: message.user }, { $exists: true })
@@ -372,7 +372,7 @@ const showtasks = async ({ message, say }) => {
             });
           } else {
             await say(
-              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+              `ohh hooo <@${message.user}>.. you are not authorized to ClickUp, go to the link below to login`
             );
             await say(
               `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
@@ -424,7 +424,7 @@ const addTask = async ({ message, say }) => {
           
           } else {
             await say(
-              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+              `ohh hooo <@${message.user}>.. you are not authorized to ClickUp, go to the link below to login`
             );
             await say(
               `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
@@ -491,7 +491,7 @@ const editTask = async({message, say }) => {
           
           } else {
             await say(
-              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+              `ohh hooo <@${message.user}>.. you are not authorized to ClickUp, go to the link below to login`
             );
             await say(
               `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
@@ -542,7 +542,7 @@ const addComment = async({message, say }) => {
           
           } else {
             await say(
-              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+              `ohh hooo <@${message.user}>.. you are not authorized to ClickUp, go to the link below to login`
             );
             await say(
               `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
@@ -599,7 +599,7 @@ const viewComments = async({message, say}) =>{
           
           } else {
             await say(
-              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+              `ohh hooo <@${message.user}>.. you are not authorized to ClickUp, go to the link below to login`
             );
             await say(
               `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
@@ -676,7 +676,7 @@ const editComments = async({message, say}) =>{
           
           } else {
             await say(
-              `ohh hooo <@${message.user}>.. you are not authorized to clickUp, go to the link below to login`
+              `ohh hooo <@${message.user}>.. you are not authorized to ClickUp, go to the link below to login`
             );
             await say(
               `https://slackauthclickup.vercel.app/clickuplogin/${message.user}`
@@ -690,7 +690,6 @@ const editComments = async({message, say}) =>{
 
 
 
-module.exports = { replyhey, clickuplogin, showtasks, addTask, editTask, addComment, viewComments, editComments};
 
 var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
   const header_config = {
@@ -700,15 +699,16 @@ var getTasks = async (oneTeam, tokenId, clickUp_user, dateCreated) => {
     },
   };
   const getTask = await axios
-    .get(
-      `https://api.clickup.com/api/v2/team/${oneTeam.id}/task?date_created_gt=${dateCreated}`,
-      header_config
+  .get(
+    `https://api.clickup.com/api/v2/team/${oneTeam.id}/task?date_created_gt=${dateCreated}`,
+    header_config
     )
     .catch(Error);
-  allTasks = getTask.data.tasks;
-  return allTasks; //returning an array of objects of all tasks
-};
-
+    allTasks = getTask.data.tasks;
+    return allTasks; 
+  };
+  
+  module.exports = { replyhey, clickuplogin, showtasks, addTask, editTask, addComment, viewComments, editComments, getTasks};
 
 
 setInterval(function() {
