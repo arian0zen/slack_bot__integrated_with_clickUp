@@ -70,6 +70,12 @@ const replyhey = async ({ message, say }) => {
       await say (
         "`-slackupp update <comment id>, comment: <update comment>` : *use this command to update only the comment text*"
       );
+      await say (
+        "`-slackupp notify` : *use this command to get notified about new tasks, you can only use this task on DM with the bot*"
+      );
+      await say (
+        "`-slackupp notify stop` : *use this command to stop getting notified about new tasks, you can only use this task on DM with the bot*"
+      );
       await say("*to get the comment id, first use view comments commands and get the id of desired comments from there*")
 
 
