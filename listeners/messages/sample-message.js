@@ -44,7 +44,7 @@ const replyhey = async ({ message, say }) => {
         "`-slackupp show this week` : *this will show you tasks that are due this week*"
       );
       await say (
-        "`-slackupp add <task name>, due: <MM/DD/YYYY>` : *this will add a task to your ClickUp*"
+        "`-slackupp add <task name>, due: <MM/DD/YYYY>` : *this will create and add a task to your ClickUp*"
       );
       await say("*mind that 'comma', and date should be strictly in that format*")
       await say (
